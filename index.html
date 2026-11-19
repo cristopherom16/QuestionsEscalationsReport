@@ -75,7 +75,7 @@
     }
 
     /* ==========================================================================
-       LAYOUT MARGINS: 5MM FROM RIGHT EDGE & 5MM FROM THEME ICON
+       LAYOUT MARGINS
        ========================================================================== */
     .container {
       width: 100%;
@@ -84,9 +84,6 @@
       padding: 18px 5mm 40px calc(10mm + 32px);
     }
 
-    /* ==========================================================================
-       THEME TOGGLE BUTTON (BOTTOM LEFT - SMALL ICON ONLY)
-       ========================================================================== */
     .theme-toggle-fixed {
       position: fixed;
       bottom: 24px;
@@ -112,9 +109,6 @@
       transform: scale(1.1);
     }
 
-    /* ==========================================================================
-       HEADER BAR (CENTERED ARIAL 20PX TITLE + CIRCULAR QUESTION MARK ICON)
-       ========================================================================== */
     .header-bar {
       background: linear-gradient(135deg, var(--bg-amber-dominant), var(--bg-amber-bright));
       color: var(--text-on-amber);
@@ -229,9 +223,6 @@
       border-color: #071324;
     }
 
-    /* ==========================================================================
-       FILTER & DATA CONTROL PANEL (SINGLE CALENDAR FOR DATE OR RANGE)
-       ========================================================================== */
     .control-panel {
       background-color: var(--bg-surface);
       border: 2px solid var(--border-main);
@@ -266,7 +257,6 @@
       text-align: center;
     }
 
-    /* Flatpickr Calendar Theme Customization */
     .flatpickr-calendar {
       background: var(--bg-surface) !important;
       border: 2px solid var(--border-main) !important;
@@ -336,9 +326,6 @@
       font-weight: 600;
     }
 
-    /* ==========================================================================
-       KPI SUMMARY CARDS
-       ========================================================================== */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -382,9 +369,6 @@
       color: var(--text-on-amber);
     }
 
-    /* ==========================================================================
-       CHARTS GRID
-       ========================================================================== */
     .charts-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -432,9 +416,6 @@
       width: 100%;
     }
 
-    /* ==========================================================================
-       SUMMARY TABLES GRID & FULL LOG TABLE
-       ========================================================================== */
     .tables-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
@@ -537,24 +518,17 @@
 </head>
 <body>
 
-  <!-- THEME TOGGLE (BOTTOM LEFT) -->
   <button id="themeToggleBtn" class="theme-toggle-fixed" onclick="toggleTheme()" title="Toggle Theme">
     <span id="themeIcon">☀️</span>
   </button>
 
   <div class="container">
-    <!-- TOP HEADER -->
     <header class="header-bar">
       <div class="header-spacer"></div>
       <div class="header-title-group">
         <div class="header-title-row">
           <h1>Consults Trends &amp; Support Analytics Dashboard</h1>
-          <span
-            class="help-circle-icon"
-            onclick="toggleHelpBox()"
-            title="Click for Google Sheets Sync & Calendar Guide"
-            aria-label="Help Information"
-          >?</span>
+          <span class="help-circle-icon" onclick="toggleHelpBox()" title="Click for Google Sheets Sync & Calendar Guide">?</span>
         </div>
         <p class="header-subtitle">Comprehensive Agent Volume &amp; Peak Hours Analytics</p>
       </div>
@@ -565,23 +539,17 @@
       </div>
     </header>
 
-    <!-- SINGLE CALENDAR FILTER (SUPPORTS SINGLE DATE OR RANGE) -->
     <section class="control-panel">
       <div class="date-filter-group">
         <label for="calendarRangeInput">Select Date / Range:</label>
         <button class="btn btn-amber" onclick="shiftDateRange(-1)">&#9664; Prev Day</button>
-        <input
-          type="text"
-          id="calendarRangeInput"
-          placeholder="Click to pick a date or range..."
-          readonly
-        />
+        <input type="text" id="calendarRangeInput" placeholder="Click to pick a date or range..." readonly />
         <button class="btn btn-amber" onclick="shiftDateRange(1)">Next Day &#9654;</button>
       </div>
 
       <div class="sync-banner">
         <span id="dataStatusText" class="status-indicator">
-          Loaded built-in snapshot. Click "Sync Live Google Sheet" to pull all &gt;5,000 records.
+          Loaded built-in snapshot. Click "Sync Live Google Sheet" to pull all latest records.
         </span>
         <span class="status-indicator" id="activeFilterSummary">
           Showing Range: -
@@ -591,30 +559,26 @@
       <div id="accessHelpBox" class="access-help-box">
         <strong>Dashboard &amp; Google Sheets Sync Guide:</strong>
         <br>&bull; <strong>Calendar Selection:</strong> Click once on a date to view a single day, or click a start date and an end date inside the same calendar to view a range. Use <strong>Prev Day</strong> / <strong>Next Day</strong> to step backward or forward.
-        <br>&bull; <strong>Live Sync (&gt;5,000 rows):</strong> If Google Sheets returns <strong>ACCESS_DENIED</strong>, open your Google Sheet &rarr; click <strong>Share</strong> &rarr; under <strong>General access</strong> select <strong>Anyone with the link (Viewer)</strong> &rarr; click <strong>Sync Live Google Sheet</strong>.
+        <br>&bull; <strong>Live Sync:</strong> Pulls absolute latest data bypassing caches. If it says <strong>ACCESS_DENIED</strong>, check Sheet share settings.
       </div>
     </section>
 
-    <!-- KPI CARDS -->
     <section class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-label">Total Logged Events</div>
         <div class="kpi-value" id="kpiTotalConsults">0 Records</div>
         <div class="kpi-meta" id="kpiTotalSub">Across selected date range</div>
       </div>
-
       <div class="kpi-card">
         <div class="kpi-label">Top Consulting Agent</div>
         <div class="kpi-value" id="kpiTopAgent">-</div>
         <div class="kpi-meta" id="kpiTopAgentSub">0 total logged actions</div>
       </div>
-
       <div class="kpi-card">
         <div class="kpi-label">Peak Consult Hour (CST)</div>
         <div class="kpi-value" id="kpiPeakHour">-</div>
         <div class="kpi-meta" id="kpiPeakHourSub">Highest hourly submission surge</div>
       </div>
-
       <div class="kpi-card">
         <div class="kpi-label">Most Common Status</div>
         <div class="kpi-value" id="kpiCommonConsult">-</div>
@@ -622,7 +586,6 @@
       </div>
     </section>
 
-    <!-- INTERACTIVE CHARTS -->
     <section class="charts-grid">
       <div class="card">
         <div class="card-header">
@@ -635,7 +598,6 @@
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
           <span>Peak Hours Distribution (CST Submission Time)</span>
@@ -649,9 +611,7 @@
       </div>
     </section>
 
-    <!-- ANALYTICAL SUMMARY TABLES -->
     <section class="tables-grid">
-      <!-- TABLE 1: TOP CONSULTING AGENTS -->
       <div class="card">
         <div class="card-header">
           <span>Top Consulting Agents Leaderboard</span>
@@ -674,8 +634,6 @@
           </table>
         </div>
       </div>
-
-      <!-- TABLE 2: PEAK HOURS BREAKDOWN -->
       <div class="card">
         <div class="card-header">
           <span>Peak Hours Breakdown (CST)</span>
@@ -699,7 +657,6 @@
       </div>
     </section>
 
-    <!-- FULL SEARCHABLE & SORTABLE LOG TABLE -->
     <section class="card">
       <div class="card-header">
         <span>Detailed Consults Database Log</span>
@@ -741,307 +698,18 @@
   </div>
 
   <script>
-    /* ==========================================================================
-       EMBEDDED INITIAL DATASET (IMMEDIATE RENDER BEFORE LIVE SYNC)
-       ========================================================================== */
     const EMBEDDED_RAW_DATA = [
       ["@Galilea Gutierrez", "November 5th, 2026 at 10:03 AM CST", "@Sabdy Alvarez", "Resolved", "November 5th, 2026 at 4:05 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 11:29 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 5:39 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 10:40 AM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 4:47 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 10:40 AM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 4:51 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 10:43 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 4:54 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 10:43 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 4:57 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 10:47 AM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 4:57 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 10:47 AM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 4:57 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 10:39 AM CST", "@Karen Medinilla", "Resolved", "November 12th, 2026 at 5:00 PM UTC"],
-      ["@Shanique Kelly", "November 12th, 2026 at 11:10 AM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 5:11 PM UTC"],
-      ["@Shanique Kelly", "November 12th, 2026 at 11:10 AM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 5:13 PM UTC"],
-      ["@Kevin Cadavid", "November 12th, 2026 at 11:27 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 5:36 PM UTC"],
-      ["@Kevin Cadavid", "November 12th, 2026 at 11:27 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 12th, 2026 at 5:37 PM UTC"],
-      ["@Israel Calderon", "November 12th, 2026 at 11:36 AM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 5:38 PM UTC"],
-      ["@Israel Calderon", "November 12th, 2026 at 11:36 AM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 5:39 PM UTC"],
-      ["@Alexander Alvarado", "November 12th, 2026 at 10:27 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 4:34 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 11:29 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 12th, 2026 at 5:40 PM UTC"],
-      ["@Daneil Facey", "November 12th, 2026 at 11:32 AM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 5:42 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 11:59 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 6:01 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 11:59 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 6:02 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 12:05 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 6:06 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 12:05 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 6:15 PM UTC"],
-      ["@Shanique Kelly", "November 12th, 2026 at 12:14 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 6:15 PM UTC"],
-      ["@Lucia Herrera", "November 12th, 2026 at 12:13 PM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 6:18 PM UTC"],
-      ["@Lucia Herrera", "November 12th, 2026 at 12:13 PM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 6:18 PM UTC"],
-      ["@Shanique Kelly", "November 12th, 2026 at 12:14 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 6:18 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 12:41 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 6:42 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 12:41 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 6:45 PM UTC"],
-      ["@Bruno Lucio", "November 12th, 2026 at 12:47 PM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 6:47 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 10:39 AM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 4:45 PM UTC"],
-      ["@Alexander Alvarado", "November 12th, 2026 at 10:27 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 4:33 PM UTC"],
-      ["@Bruno Lucio", "November 12th, 2026 at 12:47 PM CST", "@Karen Medinilla", "Resolved", "November 12th, 2026 at 6:52 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 8:01 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 2:13 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 6:10 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 12:12 AM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 6:10 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 12:26 AM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 6:39 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 12:44 AM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 6:39 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 12:44 AM UTC"],
-      ["@Dean Spencer", "November 12th, 2026 at 6:50 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 1:08 PM UTC"],
-      ["@Dean Spencer", "November 12th, 2026 at 6:50 AM CST", "@Sabdy Alvarez", "Resolved", "November 12th, 2026 at 1:12 PM UTC"],
-      ["@Lucia Herrera", "November 12th, 2026 at 7:17 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 1:22 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 7:39 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 1:42 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 7:39 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 1:44 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 8:01 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 2:09 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 8:07 AM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 2:10 PM UTC"],
-      ["@Lucia Herrera", "November 12th, 2026 at 7:17 AM CST", "@Sabdy Alvarez", "Resolved", "November 12th, 2026 at 2:11 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 8:07 AM CST", "@Karen Medinilla", "Resolved", "November 12th, 2026 at 2:16 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 10:27 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 4:31 PM UTC"],
-      ["@Emely Hernandez", "November 12th, 2026 at 8:30 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 2:32 PM UTC"],
-      ["@Alex Scarlett", "November 12th, 2026 at 8:30 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 2:32 PM UTC"],
-      ["@Alex Scarlett", "November 12th, 2026 at 8:30 AM CST", "@Sabdy Alvarez", "Consult with US Team", "November 12th, 2026 at 2:33 PM UTC"],
-      ["@Stephanie Temple", "November 12th, 2026 at 8:34 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 2:37 PM UTC"],
-      ["@Stephanie Temple", "November 12th, 2026 at 8:34 AM CST", "@Sabdy Alvarez", "Consult with US Team", "November 12th, 2026 at 2:41 PM UTC"],
-      ["@Lucia Herrera", "November 12th, 2026 at 8:58 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 3:01 PM UTC"],
-      ["@Lucia Herrera", "November 12th, 2026 at 8:58 AM CST", "@Sabdy Alvarez", "Resolved", "November 12th, 2026 at 3:06 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 9:22 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 3:22 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 9:22 AM CST", "@Sabdy Alvarez", "Resolved", "November 12th, 2026 at 3:25 PM UTC"],
-      ["@Daneil Facey", "November 12th, 2026 at 9:59 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 4:01 PM UTC"],
-      ["@Daneil Facey", "November 12th, 2026 at 9:59 AM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 4:02 PM UTC"],
-      ["@Galilea Gutierrez", "November 12th, 2026 at 10:19 AM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 4:24 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 10:27 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 4:28 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 12:47 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 6:52 PM UTC"],
-      ["@Pablo Saquilmer", "November 12th, 2026 at 12:47 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 6:53 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 4:54 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 10:54 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 10:30 AM CST", "@Karen Medinilla", "Under Review", "November 13th, 2026 at 4:47 PM UTC"],
-      ["@Marielys Tejada", "November 12th, 2026 at 6:10 PM CST", "@Carlos Rios", "Resolved", "November 13th, 2026 at 12:18 AM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 6:36 PM CST", "@Carlos Rios", "Under Review", "November 13th, 2026 at 12:39 AM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 6:36 PM CST", "@Jorge Garrido", "Resolved", "November 13th, 2026 at 12:56 AM UTC"],
-      ["@Emely Hernandez", "November 13th, 2026 at 8:02 AM CST", "@Sabdy Alvarez", "Under Review", "November 13th, 2026 at 2:13 PM UTC"],
-      ["@Emely Hernandez", "November 13th, 2026 at 8:02 AM CST", "@Sabdy Alvarez", "Resolved", "November 13th, 2026 at 2:14 PM UTC"],
-      ["@Kevin Cadavid", "November 13th, 2026 at 8:36 AM CST", "@Sabdy Alvarez", "Under Review", "November 13th, 2026 at 2:45 PM UTC"],
-      ["@Zinedine Moscote", "November 13th, 2026 at 8:40 AM CST", "@Pablo Valenzuela", "Under Review", "November 13th, 2026 at 2:51 PM UTC"],
-      ["@Joseth Rodriguez", "November 13th, 2026 at 8:45 AM CST", "@Sabdy Alvarez", "Under Review", "November 13th, 2026 at 2:54 PM UTC"],
-      ["@Joseth Rodriguez", "November 13th, 2026 at 8:45 AM CST", "@Sabdy Alvarez", "Consult with US Team", "November 13th, 2026 at 2:55 PM UTC"],
-      ["@Zinedine Moscote", "November 13th, 2026 at 8:40 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 13th, 2026 at 3:19 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 10:20 AM CST", "@Karen Medinilla", "Under Review", "November 13th, 2026 at 4:35 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 10:20 AM CST", "@Karen Medinilla", "Resolved", "November 13th, 2026 at 4:47 PM UTC"],
-      ["@Emely Hernandez", "November 13th, 2026 at 10:38 AM CST", "@Pablo Valenzuela", "Under Review", "November 13th, 2026 at 4:53 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 4:56 PM CST", "@Nury Garcia", "Consult with US Team", "November 12th, 2026 at 11:26 PM UTC"],
-      ["@Emely Hernandez", "November 13th, 2026 at 10:38 AM CST", "@Pablo Valenzuela", "Resolved", "November 13th, 2026 at 4:54 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 10:42 AM CST", "@Pablo Valenzuela", "Under Review", "November 13th, 2026 at 4:55 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 10:42 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 13th, 2026 at 4:55 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 11:23 AM CST", "@Carlos Rios", "Under Review", "November 13th, 2026 at 5:50 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 11:23 AM CST", "@Carlos Rios", "Resolved", "November 13th, 2026 at 5:55 PM UTC"],
-      ["@Lucia Herrera", "November 13th, 2026 at 12:06 PM CST", "@Nury Garcia", "Under Review", "November 13th, 2026 at 6:14 PM UTC"],
-      ["@Lucia Herrera", "November 13th, 2026 at 12:06 PM CST", "@Nury Garcia", "Consult with US Team", "November 13th, 2026 at 6:23 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 12:15 PM CST", "@Karen Medinilla", "Under Review", "November 13th, 2026 at 6:29 PM UTC"],
-      ["@Lucia Herrera", "November 13th, 2026 at 12:19 PM CST", "@Carlos Rios", "Under Review", "November 13th, 2026 at 6:30 PM UTC"],
-      ["@Lucia Herrera", "November 13th, 2026 at 12:19 PM CST", "@Carlos Rios", "Resolved", "November 13th, 2026 at 6:34 PM UTC"],
-      ["@Galilea Gutierrez", "November 13th, 2026 at 12:41 PM CST", "@Pablo Valenzuela", "Under Review", "November 13th, 2026 at 6:48 PM UTC"],
-      ["@Galilea Gutierrez", "November 13th, 2026 at 12:41 PM CST", "@Pablo Valenzuela", "Resolved", "November 13th, 2026 at 6:56 PM UTC"],
-      ["@Jorge Saban", "November 13th, 2026 at 12:43 PM CST", "@Pablo Valenzuela", "Under Review", "November 13th, 2026 at 6:56 PM UTC"],
-      ["@Marielys Tejada", "November 12th, 2026 at 6:10 PM CST", "@Carlos Rios", "Under Review", "November 13th, 2026 at 12:13 AM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 4:54 PM CST", "@Nury Garcia", "Resolved", "November 12th, 2026 at 11:24 PM UTC"],
-      ["@Gustavo Lopez", "November 12th, 2026 at 1:13 PM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 7:15 PM UTC"],
-      ["@Marcos Espinosa", "November 12th, 2026 at 2:29 PM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 8:46 PM UTC"],
-      ["@Gustavo Lopez", "November 12th, 2026 at 1:13 PM CST", "@Karen Medinilla", "Consult with US Team", "November 12th, 2026 at 7:16 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 1:20 PM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 7:22 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 1:20 PM CST", "@Pablo Valenzuela", "Resolved", "November 12th, 2026 at 7:23 PM UTC"],
-      ["@Stephanie Temple", "November 12th, 2026 at 1:36 PM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 7:43 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 1:47 PM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 7:47 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 1:47 PM CST", "@Karen Medinilla", "Resolved", "November 12th, 2026 at 7:49 PM UTC"],
-      ["@Jorge Saban", "November 12th, 2026 at 1:47 PM CST", "@Karen Medinilla", "Under Review", "November 12th, 2026 at 7:57 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 2:02 PM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 8:25 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 2:02 PM CST", "@Sabdy Alvarez", "Consult with US Team", "November 12th, 2026 at 8:27 PM UTC"],
-      ["@Stephanie Temple", "November 12th, 2026 at 2:10 PM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 8:30 PM UTC"],
-      ["@Stephanie Temple", "November 12th, 2026 at 2:10 PM CST", "@Sabdy Alvarez", "Resolved", "November 12th, 2026 at 8:30 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 2:13 PM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 8:31 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 2:17 PM CST", "@Sabdy Alvarez", "Under Review", "November 12th, 2026 at 8:36 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 3:15 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 9:20 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 4:47 PM CST", "@Nury Garcia", "Resolved", "November 12th, 2026 at 11:22 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 3:15 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 9:20 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 3:15 PM CST", "@Carlos Rios", "Consult with US Team", "November 12th, 2026 at 9:21 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 3:59 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 10:05 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 3:59 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 10:07 PM UTC"],
-      ["@Alexander Alvarado", "November 12th, 2026 at 4:13 PM CST", "@Carlos Rios", "Under Review", "November 12th, 2026 at 10:17 PM UTC"],
-      ["@Alexander Alvarado", "November 12th, 2026 at 4:13 PM CST", "@Carlos Rios", "Resolved", "November 12th, 2026 at 10:22 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 4:25 PM CST", "@Nury Garcia", "Under Review", "November 12th, 2026 at 10:28 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 4:25 PM CST", "@Nury Garcia", "Resolved", "November 12th, 2026 at 10:31 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 4:36 PM CST", "@Nury Garcia", "Under Review", "November 12th, 2026 at 11:18 PM UTC"],
-      ["@Rudy Herrera", "November 12th, 2026 at 4:47 PM CST", "@Nury Garcia", "Under Review", "November 12th, 2026 at 11:18 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 4:54 PM CST", "@Nury Garcia", "Under Review", "November 12th, 2026 at 11:18 PM UTC"],
-      ["@Diana Alvarez", "November 12th, 2026 at 4:56 PM CST", "@Nury Garcia", "Under Review", "November 12th, 2026 at 11:18 PM UTC"],
-      ["@Emilia Chajon", "November 12th, 2026 at 4:36 PM CST", "@Nury Garcia", "Resolved", "November 12th, 2026 at 11:21 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 4:54 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 10:55 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 4:32 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 10:35 PM UTC"],
-      ["@Dean Spencer", "November 13th, 2026 at 12:43 PM CST", "@Carlos Rios", "Under Review", "November 13th, 2026 at 6:58 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 11:10 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 5:33 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 10:58 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 5:02 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 10:53 AM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 5:05 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 11:10 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 5:16 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 11:20 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 5:21 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 11:20 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:22 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 11:20 AM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 5:24 PM UTC"],
-      ["@Kevin Cadavid", "November 11th, 2026 at 11:27 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:28 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 11:28 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:29 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 11:20 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 5:31 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 11:28 AM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 5:32 PM UTC"],
-      ["@Kevin Cadavid", "November 11th, 2026 at 11:27 AM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 5:32 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 8:40 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 5:32 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 11:36 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:39 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 10:58 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 4:59 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 11:36 AM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 5:43 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 11:50 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:51 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 11:50 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:52 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 11:50 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 5:54 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 11:53 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 5:59 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 11:53 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 6:05 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 12:19 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 6:24 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 12:26 PM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 6:27 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 12:26 PM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 6:28 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 12:26 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 6:28 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 12:32 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 6:40 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 12:19 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 6:42 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 12:32 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 6:43 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 10:53 AM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 5:00 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 10:58 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 4:59 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 12:46 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 6:47 PM UTC"],
-      ["@Galilea Gutierrez", "November 11th, 2026 at 9:45 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 3:48 PM UTC"],
-      ["@Daneil Facey", "November 11th, 2026 at 8:12 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 2:18 PM UTC"],
-      ["@Daneil Facey", "November 11th, 2026 at 8:12 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 2:19 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 8:22 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 2:23 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 8:40 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 2:42 PM UTC"],
-      ["@Alejandra Manco", "November 11th, 2026 at 8:45 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 2:46 PM UTC"],
-      ["@Alejandra Manco", "November 11th, 2026 at 8:45 AM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 2:50 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 8:52 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 2:55 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 8:52 AM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 2:56 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 9:05 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 3:09 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 9:05 AM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 3:16 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 9:40 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 3:42 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 9:42 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 3:46 PM UTC"],
-      ["@Galilea Gutierrez", "November 11th, 2026 at 9:45 AM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 3:49 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 10:53 AM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 4:56 PM UTC"],
-      ["@Israel Calderon", "November 11th, 2026 at 9:54 AM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 3:58 PM UTC"],
-      ["@Israel Calderon", "November 11th, 2026 at 9:54 AM CST", "@Karen Medinilla", "Resolved", "November 11th, 2026 at 3:59 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 10:18 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 4:20 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 10:18 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 11th, 2026 at 4:22 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 10:25 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 4:27 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 10:30 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 4:34 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 10:30 AM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 4:35 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 10:38 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 4:39 PM UTC"],
-      ["@Mariana Cruz", "November 11th, 2026 at 10:37 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 4:40 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 10:42 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 4:43 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 10:42 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 11th, 2026 at 4:44 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 10:51 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 4:52 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 10:53 AM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 4:53 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 12:26 PM CST", "@Nury Garcia", "Consult with US Team", "November 11th, 2026 at 6:45 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 12:46 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 6:47 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 4:14 PM CST", "@Karen Medinilla", "Resolved", "November 11th, 2026 at 10:35 PM UTC"],
-      ["@Bruno Lucio", "November 11th, 2026 at 3:34 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 9:40 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 2:35 PM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 9:00 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 3:07 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 9:09 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 3:08 PM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 9:11 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 3:08 PM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 9:12 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 3:07 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 9:15 PM UTC"],
-      ["@Bruno Lucio", "November 11th, 2026 at 3:14 PM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 9:15 PM UTC"],
-      ["@Bruno Lucio", "November 11th, 2026 at 3:14 PM CST", "@Pablo Valenzuela", "Consult with US Team", "November 11th, 2026 at 9:16 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 3:22 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 9:24 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 3:22 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 9:32 PM UTC"],
-      ["@Bruno Lucio", "November 11th, 2026 at 3:34 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 9:35 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 3:36 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 9:37 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 3:36 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 9:39 PM UTC"],
-      ["@Bruno Lucio", "November 11th, 2026 at 3:37 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 9:42 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 2:53 PM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 8:54 PM UTC"],
-      ["@Bruno Lucio", "November 11th, 2026 at 3:37 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 9:48 PM UTC"],
-      ["@Rudy Herrera", "November 11th, 2026 at 3:45 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 9:52 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 3:52 PM CST", "@Carlos Rios", "Under Review", "November 11th, 2026 at 9:54 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 3:52 PM CST", "@Carlos Rios", "Resolved", "November 11th, 2026 at 9:54 PM UTC"],
-      ["@Rudy Herrera", "November 11th, 2026 at 3:45 PM CST", "@Nury Garcia", "Consult with US Team", "November 11th, 2026 at 9:54 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 3:47 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 9:55 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 3:51 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 9:55 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 3:47 PM CST", "@Nury Garcia", "Consult with US Team", "November 11th, 2026 at 9:55 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 3:51 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 9:56 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 4:14 PM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 10:15 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 4:29 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 10:31 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 4:32 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 10:33 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 4:29 PM CST", "@Nury Garcia", "Consult with US Team", "November 11th, 2026 at 10:34 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 2:53 PM CST", "@Karen Medinilla", "Resolved", "November 11th, 2026 at 8:57 PM UTC"],
-      ["@Rudy Herrera", "November 11th, 2026 at 2:48 PM CST", "@Karen Medinilla", "Resolved", "November 11th, 2026 at 8:54 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 12:48 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 6:55 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 1:51 PM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 8:05 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 12:48 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 6:55 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 1:06 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 7:06 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 1:06 PM CST", "@Nury Garcia", "Resolved", "November 11th, 2026 at 7:07 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 1:30 PM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 7:31 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 1:35 PM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 7:36 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 1:35 PM CST", "@Karen Medinilla", "Resolved", "November 11th, 2026 at 7:37 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 1:37 PM CST", "@Nury Garcia", "Under Review", "November 11th, 2026 at 7:40 PM UTC"],
-      ["@Jorge Saban", "November 11th, 2026 at 1:37 PM CST", "@Nury Garcia", "Consult with US Team", "November 11th, 2026 at 7:41 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 1:53 PM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 7:54 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 1:53 PM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 7:55 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 1:57 PM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 7:58 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 1:57 PM CST", "@Pablo Valenzuela", "Resolved", "November 11th, 2026 at 8:00 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 1:51 PM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 8:00 PM UTC"],
-      ["@Daneil Facey", "November 11th, 2026 at 2:09 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:12 PM UTC"],
-      ["@Rudy Herrera", "November 11th, 2026 at 2:48 PM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 8:53 PM UTC"],
-      ["@Daneil Facey", "November 11th, 2026 at 2:09 PM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 8:14 PM UTC"],
-      ["@Dean Spencer", "November 11th, 2026 at 2:13 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:15 PM UTC"],
-      ["@Dean Spencer", "November 11th, 2026 at 2:13 PM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 8:25 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 2:26 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:30 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 2:29 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:31 PM UTC"],
-      ["@Michelle Salmon", "November 11th, 2026 at 2:29 PM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 8:35 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 2:34 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:35 PM UTC"],
-      ["@Alexander Alvarado", "November 11th, 2026 at 2:31 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:35 PM UTC"],
-      ["@Shanique Kelly", "November 11th, 2026 at 2:34 PM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 8:37 PM UTC"],
-      ["@Diana Alvarez", "November 11th, 2026 at 2:35 PM CST", "@Sabdy Alvarez", "Under Review", "November 11th, 2026 at 8:41 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 2:43 PM CST", "@Karen Medinilla", "Under Review", "November 11th, 2026 at 8:47 PM UTC"],
-      ["@Emilia Chajon", "November 11th, 2026 at 2:26 PM CST", "@Sabdy Alvarez", "Resolved", "November 11th, 2026 at 8:48 PM UTC"],
-      ["@Pablo Saquilmer", "November 11th, 2026 at 2:43 PM CST", "@Karen Medinilla", "Resolved", "November 11th, 2026 at 8:52 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 12:43 PM CST", "@Pablo Valenzuela", "Under Review", "November 13th, 2026 at 6:57 PM UTC"],
-      ["@Diana Alvarez", "November 13th, 2026 at 12:43 PM CST", "@Pablo Valenzuela", "Consult with US Team", "November 13th, 2026 at 7:00 PM UTC"],
-      ["@Lucia Herrera", "November 11th, 2026 at 8:12 AM CST", "@Pablo Valenzuela", "Under Review", "November 11th, 2026 at 2:13 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:36 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 6:38 PM UTC"],
-      ["@Michelle Salmon", "November 17th, 2026 at 11:56 AM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 6:00 PM UTC"],
-      ["@Michelle Salmon", "November 17th, 2026 at 11:56 AM CST", "@Pablo Valenzuela", "Consult with US Team", "November 17th, 2026 at 6:01 PM UTC"],
-      ["@Kevin Cadavid", "November 17th, 2026 at 12:00 PM CST", "@Carlos Rios", "Under Review", "November 17th, 2026 at 6:04 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 12:06 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 6:08 PM UTC"],
-      ["@Kevin Cadavid", "November 17th, 2026 at 12:00 PM CST", "@Carlos Rios", "Resolved", "November 17th, 2026 at 6:08 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 12:10 PM CST", "@Carlos Rios", "Under Review", "November 17th, 2026 at 6:14 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:10 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 6:14 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:10 PM CST", "@Pablo Valenzuela", "Resolved", "November 17th, 2026 at 6:15 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 12:12 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 6:16 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 12:10 PM CST", "@Carlos Rios", "Resolved", "November 17th, 2026 at 6:18 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 12:12 PM CST", "@Pablo Valenzuela", "Consult with US Team", "November 17th, 2026 at 6:19 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:26 PM CST", "@Karen Medinilla", "Under Review", "November 17th, 2026 at 6:29 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:36 PM CST", "@Pablo Valenzuela", "Consult with US Team", "November 17th, 2026 at 6:46 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 11:31 AM CST", "@Nury Garcia", "Resolved", "November 17th, 2026 at 5:38 PM UTC"],
-      ["@Alexander Alvarado", "November 17th, 2026 at 12:39 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 6:47 PM UTC"],
-      ["@Alexander Alvarado", "November 17th, 2026 at 12:39 PM CST", "@Pablo Valenzuela", "Consult with US Team", "November 17th, 2026 at 6:48 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:46 PM CST", "@Carlos Rios", "Under Review", "November 17th, 2026 at 6:54 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 12:46 PM CST", "@Carlos Rios", "Resolved", "November 17th, 2026 at 6:59 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 1:14 PM CST", "@Karen Medinilla", "Under Review", "November 17th, 2026 at 7:19 PM UTC"],
-      ["@Marielys Tejada", "November 17th, 2026 at 1:17 PM CST", "@Karen Medinilla", "Under Review", "November 17th, 2026 at 7:30 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 1:30 PM CST", "@Karen Medinilla", "Under Review", "November 17th, 2026 at 7:35 PM UTC"],
-      ["@Emilia Chajon", "November 17th, 2026 at 1:32 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 7:37 PM UTC"],
-      ["@Emilia Chajon", "November 17th, 2026 at 1:32 PM CST", "@Pablo Valenzuela", "Resolved", "November 17th, 2026 at 7:44 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 1:39 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 7:44 PM UTC"],
-      ["@Diana Alvarez", "November 17th, 2026 at 1:39 PM CST", "@Pablo Valenzuela", "Resolved", "November 17th, 2026 at 7:48 PM UTC"],
-      ["@Emilia Chajon", "November 17th, 2026 at 1:41 PM CST", "@Pablo Valenzuela", "Under Review", "November 17th, 2026 at 7:49 PM UTC"],
-      ["@Emilia Chajon", "November 17th, 2026 at 1:41 PM CST", "@Pablo Valenzuela", "Consult with US Team", "November 17th, 2026 at 7:49 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 11:32 AM CST", "@Nury Garcia", "Consult with US Team", "November 17th, 2026 at 5:44 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 11:34 AM CST", "@Karen Medinilla", "Consult with US Team", "November 17th, 2026 at 5:36 PM UTC"],
-      ["@Lucia Herrera", "November 17th, 2026 at 1:49 PM CST", "@Pablo Valenzuela", "Resolved", "November 17th, 2026 at 7:56 PM UTC"],
-      ["@Galilea Gutierrez", "November 17th, 2026 at 10:00 AM CST", "@Sabdy Alvarez", "Under Review", "November 17th, 2026 at 4:15 PM UTC"],
-      ["@Pablo Saquilmer", "November 17th, 2026 at 7:21 AM CST", "@Pablo Valenzuela", "Resolved", "November 17th, 2026 at 1:24 PM UTC"],
-      ["@Andrea Gonzalez", "November 17th, 2026 at 8:12 AM CST", "@Sabdy Alvarez", "Under Review", "November 17th, 2026 at 2:15 PM UTC"],
-      ["@Stephanie Temple", "November 17th, 2026 at 8:14 AM CST", "@Karen Medinilla", "Under Review", "November 17th, 2026 at 2:18 PM UTC"]
+      ["@Pablo Saquilmer", "November 12th, 2026 at 11:29 AM CST", "@Pablo Valenzuela", "Under Review", "November 12th, 2026 at 5:39 PM UTC"]
     ];
 
-    /* ==========================================================================
-       STATE VARIABLES
-       ========================================================================== */
     const SHEET_ID = "1dlGlAvVph_lfcxkSHLLznWOKmvtmmZyAbKkbmrra6Sw";
     let allRecords = [];
     let filteredRecords = [];
     let currentPage = 1;
     const rowsPerPage = 15;
-    let sortState = { key: "submitted", asc: false };
+    // Default sorting chronologically showing newest first
+    let sortState = { key: "submitted", asc: false }; 
     let charts = {};
     let syncTimeoutId = null;
     let calendarPicker = null;
@@ -1049,25 +717,29 @@
     let activeEndISO = "";
 
     const monthMap = {
-      january: "01", february: "02", march: "03", april: "04", may: "05", june: "06",
-      july: "07", august: "08", september: "09", october: "10", november: "11", december: "12"
+      january: "01", jan: "01",
+      february: "02", feb: "02",
+      march: "03", mar: "03",
+      april: "04", apr: "04",
+      may: "05",
+      june: "06", jun: "06",
+      july: "07", jul: "07",
+      august: "08", aug: "08",
+      september: "09", sep: "09", sept: "09",
+      october: "10", oct: "10",
+      november: "11", nov: "11",
+      december: "12", dec: "12"
     };
     const monthNamesList = [
       "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ];
 
-    /* ==========================================================================
-       HELP ICON TOGGLE
-       ========================================================================== */
     function toggleHelpBox() {
       const helpBox = document.getElementById("accessHelpBox");
       helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
     }
 
-    /* ==========================================================================
-       PARSING HELPERS
-       ========================================================================== */
     function toISODateLocal(d) {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -1075,9 +747,10 @@
       return `${y}-${m}-${day}`;
     }
 
+    // Improved Date parser so we never lose unknown/new formats
     function parseCustomTimestamp(str, tzOffsetHours) {
       if (!str) return null;
-
+      
       const gDateMatch = String(str).match(/^Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)/);
       if (gDateMatch) {
         const yyyy = gDateMatch[1];
@@ -1091,32 +764,51 @@
         return { utcMs, hour24: hour, dateLabel: `${monthNamesList[monthIndex]} ${parseInt(dd, 10)}, ${yyyy}`, isoDate };
       }
 
-      const cleaned = String(str).replace(/(\d+)(st|nd|rd|th)/i, "$1").replace(" at ", " ");
+      const cleaned = String(str).replace(/(\d+)(st|nd|rd|th)/i, "$1").replace(" at ", " ").trim();
       const match = cleaned.match(/^([A-Za-z]+)\s+(\d+),\s+(\d{4})\s+(\d{1,2}):(\d{2})\s+([AP]M)/i);
 
-      if (!match) return null;
+      if (match) {
+        const monthName = match[1].toLowerCase();
+        const mm = monthMap[monthName] || "01";
+        const dd = match[2].padStart(2, "0");
+        const yyyy = match[3];
 
-      const monthName = match[1].toLowerCase();
-      const monthIndex = Object.keys(monthMap).indexOf(monthName);
-      const mm = monthMap[monthName] || "01";
-      const dd = match[2].padStart(2, "0");
-      const yyyy = match[3];
+        let hour = parseInt(match[4], 10);
+        const minute = parseInt(match[5], 10);
+        const ampm = match[6].toUpperCase();
 
-      let hour = parseInt(match[4], 10);
-      const minute = parseInt(match[5], 10);
-      const ampm = match[6].toUpperCase();
+        if (ampm === "PM" && hour < 12) hour += 12;
+        if (ampm === "AM" && hour === 12) hour = 0;
 
-      if (ampm === "PM" && hour < 12) hour += 12;
-      if (ampm === "AM" && hour === 12) hour = 0;
+        const isoDate = `${yyyy}-${mm}-${dd}`;
+        // Standardize the month name in output just in case of typos
+        const standardMonth = monthNamesList[parseInt(mm, 10) - 1];
+        const utcMs = Date.UTC(parseInt(yyyy, 10), parseInt(mm,10)-1, parseInt(dd, 10), hour - tzOffsetHours, minute, 0);
 
-      const isoDate = `${yyyy}-${mm}-${dd}`;
-      const utcMs = Date.UTC(parseInt(yyyy, 10), monthIndex, parseInt(dd, 10), hour - tzOffsetHours, minute, 0);
+        return { utcMs, hour24: hour, dateLabel: `${standardMonth} ${match[2]}, ${yyyy}`, isoDate };
+      }
 
-      return { utcMs, hour24: hour, dateLabel: `${match[1]} ${match[2]}, ${yyyy}`, isoDate };
+      // Fallback for standard date parsing
+      const d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const isoDate = `${yyyy}-${mm}-${dd}`;
+        const hour = d.getHours();
+        return {
+          utcMs: d.getTime(),
+          hour24: hour,
+          dateLabel: `${monthNamesList[d.getMonth()]} ${d.getDate()}, ${yyyy}`,
+          isoDate
+        };
+      }
+
+      return null;
     }
 
     function formatHourWindow(hour24) {
-      if (hour24 === null || hour24 === undefined || isNaN(hour24)) return "Unknown";
+      if (hour24 === null || hour24 === undefined || isNaN(hour24) || hour24 < 0) return "Unknown";
       const period = hour24 >= 12 ? "PM" : "AM";
       const h12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
       return `${h12}:00 ${period} CST`;
@@ -1150,14 +842,14 @@
           dateOnly: subParsed ? subParsed.dateLabel : "Unknown Date",
           hour24: subParsed ? subParsed.hour24 : -1,
           hourLabel: subParsed ? formatHourWindow(subParsed.hour24) : "Unknown",
-          turnaround: turnaroundMins
+          turnaround: turnaroundMins,
+          // SAVING PROPER TIMESTAMPS FOR CHRONOLOGICAL SORTING
+          submittedMs: subParsed ? subParsed.utcMs : 0,
+          changedMs: chgParsed ? chgParsed.utcMs : 0
         };
       }).filter(item => item.agent && item.agent !== "Who is consulting?");
     }
 
-    /* ==========================================================================
-       LIVE GOOGLE SHEETS SYNC (APPS SCRIPT NATIVE + GVIZ JSONP)
-       ========================================================================== */
     function loadDatasetIntoDashboard(records, sourceMessage) {
       allRecords = records;
       setInitialCalendarRange();
@@ -1211,7 +903,7 @@
       const statusEl = document.getElementById("dataStatusText");
       const helpBox = document.getElementById("accessHelpBox");
       helpBox.style.display = "none";
-      statusEl.textContent = "Syncing all live records from Google Sheets...";
+      statusEl.textContent = "Syncing absolutely all latest records from Google Sheets...";
 
       if (typeof google !== "undefined" && google.script && google.script.run) {
         google.script.run
@@ -1240,7 +932,9 @@
 
       const script = document.createElement("script");
       script.id = "gviz-script";
-      script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=0&headers=1&tqx=responseHandler:handleGvizResponse&_=${Date.now()}`;
+      // Añadimos 'select *' para forzar a la API a omitir cualquier caché y evadir límites
+      const dynamicQuery = encodeURIComponent("select *");
+      script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=0&headers=1&tqx=responseHandler:handleGvizResponse&tq=${dynamicQuery}&_cb=${Date.now()}`;
       script.onerror = function() {
         if (syncTimeoutId) clearTimeout(syncTimeoutId);
         statusEl.textContent = "Network/Permission Error: Unable to reach Google Sheets.";
@@ -1249,9 +943,6 @@
       document.body.appendChild(script);
     }
 
-    /* ==========================================================================
-       SINGLE CALENDAR (DATE OR RANGE) + PREV / NEXT DAY NAVIGATION
-       ========================================================================== */
     function initSingleCalendar() {
       calendarPicker = flatpickr("#calendarRangeInput", {
         mode: "range",
@@ -1285,9 +976,7 @@
     }
 
     function shiftDateRange(deltaDays) {
-      if (!activeStartISO || !activeEndISO) {
-        setInitialCalendarRange();
-      }
+      if (!activeStartISO || !activeEndISO) setInitialCalendarRange();
       if (!activeStartISO || !activeEndISO) return;
 
       const dStart = new Date(activeStartISO + "T12:00:00Z");
@@ -1335,16 +1024,12 @@
       renderLogTable(1);
     }
 
-    /* ==========================================================================
-       THEME SWITCHING
-       ========================================================================== */
     function toggleTheme() {
       const htmlEl = document.documentElement;
       const currentTheme = htmlEl.getAttribute("data-theme");
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
       htmlEl.setAttribute("data-theme", nextTheme);
       localStorage.setItem("consults_dashboard_theme", nextTheme);
-
       document.getElementById("themeIcon").textContent = nextTheme === "dark" ? "☀️" : "🌙";
       renderAllCharts();
     }
@@ -1353,31 +1038,19 @@
       const isDark = document.documentElement.getAttribute("data-theme") === "dark";
       if (isDark) {
         return {
-          textColor: "#FBBF24",
-          gridColor: "rgba(251, 191, 36, 0.18)",
-          amberPrimary: "#F59E0B",
-          amberBright: "#FBBF24",
-          bluePrimary: "#2563EB",
-          borderDark: "#071324"
+          textColor: "#FBBF24", gridColor: "rgba(251, 191, 36, 0.18)",
+          amberPrimary: "#F59E0B", amberBright: "#FBBF24", bluePrimary: "#2563EB", borderDark: "#071324"
         };
       } else {
         return {
-          textColor: "#071324",
-          gridColor: "rgba(7, 19, 36, 0.14)",
-          amberPrimary: "#F59E0B",
-          amberBright: "#FBBF24",
-          bluePrimary: "#1E3A8A",
-          borderDark: "#071324"
+          textColor: "#071324", gridColor: "rgba(7, 19, 36, 0.14)",
+          amberPrimary: "#F59E0B", amberBright: "#FBBF24", bluePrimary: "#1E3A8A", borderDark: "#071324"
         };
       }
     }
 
-    /* ==========================================================================
-       KPI UPDATES
-       ========================================================================== */
     function updateKPIs() {
       const total = filteredRecords.length;
-
       document.getElementById("kpiTotalConsults").textContent = `${total} Logged Events`;
 
       const agentCounts = {};
@@ -1394,9 +1067,7 @@
       }
 
       const hourCounts = {};
-      filteredRecords.forEach(r => {
-        if (r.hour24 >= 0) hourCounts[r.hour24] = (hourCounts[r.hour24] || 0) + 1;
-      });
+      filteredRecords.forEach(r => { if (r.hour24 >= 0) hourCounts[r.hour24] = (hourCounts[r.hour24] || 0) + 1; });
       const sortedHours = Object.entries(hourCounts).sort((a, b) => b[1] - a[1]);
       if (sortedHours.length > 0) {
         const peakH = parseInt(sortedHours[0][0], 10);
@@ -1423,9 +1094,6 @@
       }
     }
 
-    /* ==========================================================================
-       CHARTS
-       ========================================================================== */
     function destroyChart(id) {
       if (charts[id]) {
         charts[id].destroy();
@@ -1436,10 +1104,8 @@
     function renderAllCharts() {
       Chart.defaults.font.family = "Arial, Helvetica, sans-serif";
       Chart.defaults.font.size = 14;
-
       const palette = getThemePalette();
 
-      // 1. TOP CONSULTING AGENTS CHART
       const agentMap = {};
       filteredRecords.forEach(r => agentMap[r.agent] = (agentMap[r.agent] || 0) + 1);
       const top10Agents = Object.entries(agentMap).sort((a, b) => b[1] - a[1]).slice(0, 10);
@@ -1459,29 +1125,17 @@
           }]
         },
         options: {
-          indexAxis: "y",
-          responsive: true,
-          maintainAspectRatio: false,
+          indexAxis: "y", responsive: true, maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: {
-              beginAtZero: true,
-              ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } },
-              grid: { color: palette.gridColor }
-            },
-            y: {
-              ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } },
-              grid: { display: false }
-            }
+            x: { beginAtZero: true, ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } }, grid: { color: palette.gridColor } },
+            y: { ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } }, grid: { display: false } }
           }
         }
       });
 
-      // 2. PEAK HOURS CHART
       const hourCounts = {};
-      filteredRecords.forEach(r => {
-        if (r.hour24 >= 0) hourCounts[r.hour24] = (hourCounts[r.hour24] || 0) + 1;
-      });
+      filteredRecords.forEach(r => { if (r.hour24 >= 0) hourCounts[r.hour24] = (hourCounts[r.hour24] || 0) + 1; });
       const hoursRange = Array.from({ length: 14 }, (_, i) => i + 6);
       const hourValues = hoursRange.map(h => hourCounts[h] || 0);
       const maxHourVal = Math.max(...hourValues, 1);
@@ -1492,55 +1146,24 @@
         data: {
           labels: hoursRange.map(h => formatHourWindow(h).replace(" CST", "")),
           datasets: [
-            {
-              type: "line",
-              label: "Hourly Trend",
-              data: hourValues,
-              borderColor: palette.bluePrimary,
-              backgroundColor: palette.bluePrimary,
-              borderWidth: 3,
-              tension: 0.3,
-              pointRadius: 4
-            },
-            {
-              type: "bar",
-              label: "Volume",
-              data: hourValues,
-              backgroundColor: hourValues.map(v => v === maxHourVal ? palette.amberBright : palette.amberPrimary),
-              borderColor: palette.borderDark,
-              borderWidth: 2,
-              borderRadius: 5
-            }
+            { type: "line", label: "Hourly Trend", data: hourValues, borderColor: palette.bluePrimary, backgroundColor: palette.bluePrimary, borderWidth: 3, tension: 0.3, pointRadius: 4 },
+            { type: "bar", label: "Volume", data: hourValues, backgroundColor: hourValues.map(v => v === maxHourVal ? palette.amberBright : palette.amberPrimary), borderColor: palette.borderDark, borderWidth: 2, borderRadius: 5 }
           ]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { labels: { color: palette.textColor, font: { size: 14, weight: "bold" } } }
-          },
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: palette.textColor, font: { size: 14, weight: "bold" } } } },
           scales: {
-            x: {
-              ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } },
-              grid: { display: false }
-            },
-            y: {
-              beginAtZero: true,
-              ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } },
-              grid: { color: palette.gridColor }
-            }
+            x: { ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } }, grid: { display: false } },
+            y: { beginAtZero: true, ticks: { color: palette.textColor, font: { size: 14, weight: "bold" } }, grid: { color: palette.gridColor } }
           }
         }
       });
     }
 
-    /* ==========================================================================
-       SUMMARY TABLES
-       ========================================================================== */
     function renderSummaryTables() {
       const total = Math.max(filteredRecords.length, 1);
 
-      // TOP AGENTS TABLE
       const agentStats = {};
       filteredRecords.forEach(r => {
         if (!agentStats[r.agent]) agentStats[r.agent] = { count: 0, resolved: 0, usTeam: 0, hours: {} };
@@ -1560,10 +1183,7 @@
           <tr>
             <td><strong>#${idx + 1}</strong></td>
             <td><strong>${agent}</strong></td>
-            <td>
-              <strong>${st.count}</strong>
-              <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${share}%"></div></div>
-            </td>
+            <td><strong>${st.count}</strong><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${share}%"></div></div></td>
             <td>${share}%</td>
             <td><span class="badge badge-resolved">${st.resolved}</span></td>
             <td><span class="badge badge-us">${st.usTeam}</span></td>
@@ -1572,7 +1192,6 @@
         `;
       }).join("");
 
-      // PEAK HOURS TABLE
       const hourStats = {};
       filteredRecords.forEach(r => {
         if (r.hour24 < 0) return;
@@ -1606,15 +1225,12 @@
       }).join("");
     }
 
-    /* ==========================================================================
-       DETAILED LOG TABLE
-       ========================================================================== */
     function sortLogTable(key) {
       if (sortState.key === key) {
         sortState.asc = !sortState.asc;
       } else {
         sortState.key = key;
-        sortState.asc = true;
+        sortState.asc = (key !== 'submitted' && key !== 'changed'); 
       }
       renderLogTable(1);
     }
@@ -1640,9 +1256,24 @@
         );
       });
 
+      // MODIFICACIÓN CRÍTICA: Ordenamiento cronológico en lugar de alfabético
       rows.sort((a, b) => {
-        const valA = a[sortState.key] ?? "";
-        const valB = b[sortState.key] ?? "";
+        let valA, valB;
+
+        if (sortState.key === 'submitted') {
+          valA = a.submittedMs;
+          valB = b.submittedMs;
+        } else if (sortState.key === 'changed') {
+          valA = a.changedMs;
+          valB = b.changedMs;
+        } else if (sortState.key === 'hourLabel') {
+          valA = a.hour24;
+          valB = b.hour24;
+        } else {
+          valA = a[sortState.key] ?? "";
+          valB = b[sortState.key] ?? "";
+        }
+
         if (typeof valA === "number" && typeof valB === "number") {
           return sortState.asc ? valA - valB : valB - valA;
         }
@@ -1684,9 +1315,6 @@
       renderLogTable(currentPage + delta);
     }
 
-    /* ==========================================================================
-       INITIALIZATION ON LOAD
-       ========================================================================== */
     window.addEventListener("DOMContentLoaded", () => {
       const savedTheme = localStorage.getItem("consults_dashboard_theme");
       if (savedTheme === "light" || savedTheme === "dark") {
@@ -1699,7 +1327,7 @@
       const initialRecords = normalizeRows(EMBEDDED_RAW_DATA);
       loadDatasetIntoDashboard(
         initialRecords,
-        `Loaded ${initialRecords.length} initial records. Click "Sync Live Google Sheet" to pull all >5,000 rows.`
+        `Loaded cached snapshot. Click "Sync Live Google Sheet" to fetch real-time database.`
       );
     });
   </script>
