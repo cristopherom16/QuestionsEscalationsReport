@@ -1049,8 +1049,18 @@
     let activeEndISO = "";
 
     const monthMap = {
-      january: "01", february: "02", march: "03", april: "04", may: "05", june: "06",
-      july: "07", august: "08", september: "09", october: "10", november: "11", december: "12"
+      january: "01", jan: "01", enero: "01", ene: "01",
+      february: "02", feb: "02", febrero: "02",
+      march: "03", mar: "03", marzo: "03",
+      april: "04", apr: "04", abril: "04", abr: "04",
+      may: "05", mayo: "05",
+      june: "06", jun: "06", junio: "06",
+      july: "07", jul: "07", julio: "07",
+      august: "08", aug: "08", agosto: "08", ago: "08",
+      september: "09", sep: "09", sept: "09", septiembre: "09",
+      october: "10", oct: "10", octubre: "10",
+      november: "11", nov: "11", noviembre: "11",
+      december: "12", dec: "12", diciembre: "12", dic: "12"
     };
     const monthNamesList = [
       "January", "February", "March", "April", "May", "June",
@@ -1078,27 +1088,29 @@
     function parseCustomTimestamp(str, tzOffsetHours) {
       if (!str) return null;
 
-      const gDateMatch = String(str).match(/^Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)/);
+      const raw = String(str).replace(/[\s\u00A0\u202F]+/g, " ").trim();
+
+      const gDateMatch = raw.match(/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)/);
       if (gDateMatch) {
         const yyyy = gDateMatch[1];
         const monthIndex = parseInt(gDateMatch[2], 10);
         const mm = String(monthIndex + 1).padStart(2, "0");
         const dd = gDateMatch[3].padStart(2, "0");
-        const hour = parseInt(gDateMatch[4], 10);
-        const minute = parseInt(gDateMatch[5], 10);
-        const second = parseInt(gDateMatch[6], 10) || 0;
+        const hour = parseInt(gDateMatch[4] || "0", 10);
+        const minute = parseInt(gDateMatch[5] || "0", 10);
+        const second = parseInt(gDateMatch[6] || "0", 10);
         const isoDate = `${yyyy}-${mm}-${dd}`;
         const utcMs = Date.UTC(parseInt(yyyy, 10), monthIndex, parseInt(dd, 10), hour - tzOffsetHours, minute, second);
         return { utcMs, hour24: hour, dateLabel: `${monthNamesList[monthIndex]} ${parseInt(dd, 10)}, ${yyyy}`, isoDate };
       }
 
-      const cleaned = String(str).replace(/(\d+)(st|nd|rd|th)/i, "$1").replace(" at ", " ").trim();
+      const cleaned = raw.replace(/(\d+)(st|nd|rd|th)/i, "$1").replace(/\s+at\s+/i, " ").trim();
       const match = cleaned.match(/^([A-Za-z]+)\s+(\d+),\s+(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s+([AP]M)/i);
 
       if (match) {
         const monthName = match[1].toLowerCase();
-        const monthIndex = Object.keys(monthMap).indexOf(monthName);
         const mm = monthMap[monthName] || "01";
+        const monthIndex = parseInt(mm, 10) - 1;
         const dd = match[2].padStart(2, "0");
         const yyyy = match[3];
 
@@ -1113,27 +1125,44 @@
         const isoDate = `${yyyy}-${mm}-${dd}`;
         const utcMs = Date.UTC(parseInt(yyyy, 10), monthIndex, parseInt(dd, 10), hour - tzOffsetHours, minute, second);
 
-        return { utcMs, hour24: hour, dateLabel: `${match[1]} ${match[2]}, ${yyyy}`, isoDate };
+        return { utcMs, hour24: hour, dateLabel: `${monthNamesList[monthIndex] || match[1]} ${match[2]}, ${yyyy}`, isoDate };
       }
 
-      const numericMatch = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s*([AP]M))?)?/i);
-      if (numericMatch) {
-        const monthIndex = parseInt(numericMatch[1], 10) - 1;
+      const slashMatch = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s*([AP]M))?)?/i);
+      if (slashMatch) {
+        let p1 = parseInt(slashMatch[1], 10);
+        let p2 = parseInt(slashMatch[2], 10);
+        const monthIndex = p1 > 12 ? p2 - 1 : p1 - 1;
+        const dayNum = p1 > 12 ? p1 : p2;
         const mm = String(monthIndex + 1).padStart(2, "0");
-        const dd = numericMatch[2].padStart(2, "0");
-        const yyyy = numericMatch[3];
-        let hour = parseInt(numericMatch[4] || "0", 10);
-        const minute = parseInt(numericMatch[5] || "0", 10);
-        const second = parseInt(numericMatch[6] || "0", 10);
-        const ampm = (numericMatch[7] || "").toUpperCase();
+        const dd = String(dayNum).padStart(2, "0");
+        const yyyy = slashMatch[3];
+        let hour = parseInt(slashMatch[4] || "0", 10);
+        const minute = parseInt(slashMatch[5] || "0", 10);
+        const second = parseInt(slashMatch[6] || "0", 10);
+        const ampm = (slashMatch[7] || "").toUpperCase();
         if (ampm === "PM" && hour < 12) hour += 12;
         if (ampm === "AM" && hour === 12) hour = 0;
+        const isoDate = `${yyyy}-${mm}-${dd}`;
+        const utcMs = Date.UTC(parseInt(yyyy, 10), monthIndex, dayNum, hour - tzOffsetHours, minute, second);
+        return { utcMs, hour24: hour, dateLabel: `${monthNamesList[monthIndex] || mm} ${dayNum}, ${yyyy}`, isoDate };
+      }
+
+      const isoMatch = cleaned.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T\s]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+      if (isoMatch) {
+        const yyyy = isoMatch[1];
+        const monthIndex = parseInt(isoMatch[2], 10) - 1;
+        const mm = isoMatch[2];
+        const dd = isoMatch[3];
+        const hour = parseInt(isoMatch[4] || "0", 10);
+        const minute = parseInt(isoMatch[5] || "0", 10);
+        const second = parseInt(isoMatch[6] || "0", 10);
         const isoDate = `${yyyy}-${mm}-${dd}`;
         const utcMs = Date.UTC(parseInt(yyyy, 10), monthIndex, parseInt(dd, 10), hour - tzOffsetHours, minute, second);
         return { utcMs, hour24: hour, dateLabel: `${monthNamesList[monthIndex] || mm} ${parseInt(dd, 10)}, ${yyyy}`, isoDate };
       }
 
-      const fallbackDate = new Date(str);
+      const fallbackDate = new Date(cleaned);
       if (!isNaN(fallbackDate.getTime())) {
         const yyyy = fallbackDate.getFullYear();
         const monthIndex = fallbackDate.getMonth();
@@ -1162,8 +1191,11 @@
         const status = (r[3] || "Unknown").trim();
         const changed = (r[4] || "").trim();
 
-        const subParsed = parseCustomTimestamp(submitted, -6);
-        const chgParsed = parseCustomTimestamp(changed, 0);
+        const rawSub = r._rawSubmitted || submitted;
+        const rawChg = r._rawChanged || changed;
+
+        const subParsed = parseCustomTimestamp(rawSub, -6) || parseCustomTimestamp(submitted, -6);
+        const chgParsed = parseCustomTimestamp(rawChg, 0) || parseCustomTimestamp(changed, 0);
 
         let turnaroundMins = null;
         if (subParsed && chgParsed) {
@@ -1220,10 +1252,18 @@
       try {
         const dataTable = response.table;
         const parsedRows = dataTable.rows.map(row => {
-          return (row.c || []).map(cell => {
+          const cells = row.c || [];
+          const arr = cells.map(cell => {
             if (!cell) return "";
             return cell.f ? String(cell.f) : String(cell.v ?? "");
           });
+          if (cells[1] && cells[1].v !== null && cells[1].v !== undefined) {
+            arr._rawSubmitted = String(cells[1].v);
+          }
+          if (cells[4] && cells[4].v !== null && cells[4].v !== undefined) {
+            arr._rawChanged = String(cells[4].v);
+          }
+          return arr;
         });
 
         const normalized = normalizeRows(parsedRows);
@@ -1232,9 +1272,12 @@
           return;
         }
 
+        const latestRec = [...normalized].sort((a, b) => (b.submittedMs - a.submittedMs) || (b.id - a.id))[0];
+        const latestLabel = latestRec && latestRec.submitted ? ` | Latest: ${latestRec.submitted}` : "";
+
         loadDatasetIntoDashboard(
           normalized,
-          `Sync Complete: Successfully loaded all ${normalized.length} live records from Google Sheets!`
+          `Sync Complete: Successfully loaded all ${normalized.length} live records from Google Sheets!${latestLabel}`
         );
       } catch (err) {
         statusEl.textContent = "Error parsing Google Sheets response.";
@@ -1251,9 +1294,11 @@
         google.script.run
           .withSuccessHandler(function(rows) {
             const normalized = normalizeRows(rows);
+            const latestRec = [...normalized].sort((a, b) => (b.submittedMs - a.submittedMs) || (b.id - a.id))[0];
+            const latestLabel = latestRec && latestRec.submitted ? ` | Latest: ${latestRec.submitted}` : "";
             loadDatasetIntoDashboard(
               normalized,
-              `Sync Complete: Loaded all ${normalized.length} authenticated records!`
+              `Sync Complete: Loaded all ${normalized.length} authenticated records!${latestLabel}`
             );
           })
           .withFailureHandler(function(err) {
@@ -1274,8 +1319,9 @@
 
       const script = document.createElement("script");
       script.id = "gviz-script";
-      const tqQuery = encodeURIComponent("select *");
-      script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=0&headers=1&tq=${tqQuery}&tqx=responseHandler:handleGvizResponse&_=${Date.now()}`;
+      const cacheBust = Date.now();
+      const tqQuery = encodeURIComponent(`select * where A is not null and '${cacheBust}'='${cacheBust}'`);
+      script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=0&headers=1&tq=${tqQuery}&tqx=responseHandler:handleGvizResponse&_=${cacheBust}`;
       script.onerror = function() {
         if (syncTimeoutId) clearTimeout(syncTimeoutId);
         statusEl.textContent = "Network/Permission Error: Unable to reach Google Sheets.";
